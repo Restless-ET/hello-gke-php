@@ -1,0 +1,20 @@
+version: '2'
+
+volumes:
+    nginx_logs: {}
+
+services:
+    in_memory_db:
+        image: redis:3.2-alpine
+        ports:
+            - 6379:6379
+    web_app:
+        image: eu.gcr.io/brave-sunspot-181810/nginx-php7-fpm:0.1.0 # image or build (below)
+        #build: setup/nginx-php7-fpm
+        ports:
+            - 8888:80
+        volumes:
+            - nginx_logs:/var/log/nginx
+            - .:/srv/project
+        depends_on:
+            - in_memory_db
