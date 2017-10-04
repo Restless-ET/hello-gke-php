@@ -1,0 +1,33 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    service: web
+  name: web
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+        maxUnavailable: 1
+        maxSurge: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        service: web
+    spec:
+      containers:
+        - image: eu.gcr.io/brave-sunspot-181810/hello-gke-php:0.0.1
+          name: web
+          ports:
+          - name: http-server
+            containerPort: 80
+          resources: {}
+          env:
+            - name: REDIS_HOST
+              value: redis
+      restartPolicy: Always
+status: {}

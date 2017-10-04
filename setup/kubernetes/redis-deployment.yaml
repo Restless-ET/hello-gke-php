@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    service: redis
+  name: redis
+spec:
+  replicas: 1 # for now keep this with a single replica, otherwise we would need a redis cluster
+  strategy: {}
+  minReadySeconds: 10
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        service: redis
+    spec:
+      containers:
+      - image: redis:3.2-alpine
+        name: redis
+        ports:
+        - containerPort: 6379
+        resources: {}
+      restartPolicy: Always
+status: {}
